@@ -1,9 +1,14 @@
+import pytest
 from app.config.lambda_handler import lambda_handler
 
+@pytest.mark.parametrize("category, search_term", [
+    ("people", "Luke"),
+    ("films", "A New Hope")
+])
 def test_lambda(category, search_term):
     event = {
-        "path": "/search",  # <- ESSENCIAL!
-        "httpMethod": "GET",  # <- ESSENCIAL!
+        "path": "/search", 
+        "httpMethod": "GET",  
         "queryStringParameters": {
             "category": category,
             "search": search_term
