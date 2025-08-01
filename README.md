@@ -1,10 +1,65 @@
-# Star Wars API - Case PowerOfData
+# 📦 case-pod
 
-Este projeto consome a API pública do Star Wars (https://swapi.dev/) e permite buscar entidades como personagens, naves, planetas, etc.
+**Projeto de integração com a API Star Wars (SWAPI), utilizando AWS Lambda e AWS S3 para manipulação e persistência dos dados. Desenvolvido em Python com foco em arquitetura limpa e boas práticas.**
 
-## Como rodar
+---
 
-1. Crie o ambiente virtual:
+## 📑 Sumário
+
+- [Descrição](#descrição)
+- [Arquitetura](#arquitetura)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Como Executar Localmente](#como-executar-localmente)
+- [Fluxo da Solução](#fluxo-da-solução)
+- [Exemplo de Uso](#exemplo-de-uso)
+- [Melhorias Futuras](#melhorias-futuras)
+- [Autor](#autor)
+
+---
+
+## 📌 Descrição
+
+Este projeto foi desenvolvido como um case técnico, simulando uma arquitetura moderna de microsserviços. O sistema consome dados públicos da **API Star Wars (SWAPI)** e realiza a manipulação dos dados
+
+---
+
+## 🧱 Arquitetura
+
+- **API StarWars (SWAPI)** via GraphQL
+- **Função AWS Lambda** que orquestra o fluxo e consome a lógica da aplicação
+- **Módulo Python (`case_pod`)** responsável por buscar, processar e formatar os dados
+- **AWS S3** para persistência dos dados manipulados
+
+![Diagrama da arquitetura](./diagrama-arquitetura.png)
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- Python 3.x
+- AWS Lambda
+- GraphQL (requests)
+- SWAPI (https://swapi-graphql.netlify.app/)
+- JSON
+- Pytest (para testes)
+- `requirements.txt` para gerenciamento de dependências
+
+---
+
+## 🛠️ Como Executar Localmente
+
+### 1. Clone o repositório
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # ou .venv\Scripts\activate no Windows
+git clone https://github.com/Gabs1993/case-pod.git
+cd case-pod
+
+Crie e ative um ambiente virtual: 
+python -m venv venv
+source venv/bin/activate 
+
+Instale as dependências do projeto:
+pip install -r requirements.txt
+
+Execute a simulação: 
+python tests/test_lambda.py / Utilizando o Run and Debug
