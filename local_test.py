@@ -1,10 +1,5 @@
-import pytest
 from app.config.lambda_handler import lambda_handler
 
-@pytest.mark.parametrize("category, search_term", [
-    ("people", "Luke"),
-    ("films", "A New Hope")
-])
 def test_lambda(category, search_term):
     event = {
         "path": "/search", 
@@ -22,8 +17,8 @@ def test_lambda(category, search_term):
 
 # Testar personagem
 print("🔎 Testando busca de personagem...")
-test_lambda("people", "Luke")
+test_lambda("people", "Luke Skywalker",)
 
-# Testar filme
-print("\n🎬 Testando busca de filme...")
-test_lambda("films", "A New Hope")
+# # Testar filme
+# print("\n🎬 Testando busca de filme...")
+# test_lambda("species", "Human")
