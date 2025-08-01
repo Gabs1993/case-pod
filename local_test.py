@@ -1,6 +1,6 @@
 from app.config.lambda_handler import lambda_handler
 
-def test_lambda(category, search_term):
+def run_lambda_test(category, search_term):
     event = {
         "path": "/search", 
         "httpMethod": "GET",  
@@ -17,8 +17,8 @@ def test_lambda(category, search_term):
 
 # Testar personagem
 print("🔎 Testando busca de personagem...")
-test_lambda("people", "Luke Skywalker",)
+run_lambda_test("people", "Luke Skywalker",)
 
 # # Testar filme
 # print("\n🎬 Testando busca de filme...")
-# test_lambda("species", "Human")
+# run_lambda_test("species", "Human")
