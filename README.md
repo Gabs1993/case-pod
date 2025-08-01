@@ -63,3 +63,6 @@ pip install -r requirements.txt
 
 Execute a simulação: 
 python tests/test_lambda.py / Utilizando o Run and Debug
+
+
+Gabriel Conceição dos Santos / Gabs1993
