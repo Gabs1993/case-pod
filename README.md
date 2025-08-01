@@ -10,9 +10,6 @@
 - [Arquitetura](#arquitetura)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Como Executar Localmente](#como-executar-localmente)
-- [Fluxo da Solução](#fluxo-da-solução)
-- [Exemplo de Uso](#exemplo-de-uso)
-- [Melhorias Futuras](#melhorias-futuras)
 - [Autor](#autor)
 
 ---
