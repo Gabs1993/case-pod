@@ -7,4 +7,13 @@ class GetStarWarsData:
 
     def execute(self, category: str, search: str = None):
         raw_data = self.repository.get_data(category, search)
-        return [StarWarsEntity(item.get("name") or item.get("title"), item).to_dict() for item in raw_data]
+        entities = []
+
+        for item in raw_data:
+            name = item.get("name") or item.get("title")
+            details = {
+                k: v for k, v in item.items() if k.lower() not in ["name", "title"]
+            }
+            entities.append(StarWarsEntity(name, details).to_dict())
+
+        return entities

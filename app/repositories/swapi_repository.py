@@ -22,7 +22,6 @@ class SWAPIRepository(IRepository):
         else:
             raise Exception("Formato de resposta inesperado da API.")
 
-        # Filtro manual
         if search:
             pattern = re.compile(re.escape(search), re.IGNORECASE)
             data = [
@@ -30,23 +29,28 @@ class SWAPIRepository(IRepository):
                 if pattern.search(item.get("name", "")) or pattern.search(item.get("title", ""))
             ]
 
-        # Enriquecer os dados conforme a categoria
         for item in data:
             if category == "people":
                 self._enrich_with_homeworld(item)
                 self._enrich_with_films(item)
+                self._remove_unwanted_fields(item, ["created", "edited", "url", "species", "vehicles", "starships"])
             elif category == "films":
                 self._enrich_with_characters(item)
+                self._remove_unwanted_fields(item, ["planets", "starships", "vehicles", "species", "created", "edited", "url"])
             elif category == "planets":
                 self._enrich_with_residents(item)
                 self._enrich_with_film_names(item)
+                self._remove_unwanted_fields(item, ["url"])
             elif category == "species":
                 self._enrich_with_homeworld(item)
                 self._enrich_with_people(item)
+                self._remove_unwanted_fields(item, ["films", "created", "edited", "url"])
             elif category == "vehicles":
                 self._enrich_with_film_names(item)
+                self._remove_unwanted_fields(item, ["url"])
             elif category == "starships":
                 self._enrich_with_film_names(item)
+                self._remove_unwanted_fields(item, ["url"])
 
         return data
     
@@ -118,3 +122,7 @@ class SWAPIRepository(IRepository):
                     "producer": film.get("producer")
                 })
         return enriched
+    
+    def _remove_unwanted_fields(self, item, keys_to_remove):
+        for key in keys_to_remove:
+            item.pop(key, None)

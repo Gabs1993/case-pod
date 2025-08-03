@@ -24,17 +24,26 @@ class StarWarsController:
     def search(self, event):
         query_params = event.get("queryStringParameters") or {}
 
-        category = query_params.get("category")
-        search = query_params.get("search")
-
-        if not category or not search:
+        try:
+            category = json.loads(query_params.get("category", "[]"))
+            search = json.loads(query_params.get("search", "[]"))
+        except json.JSONDecodeError:
             return {
                 "statusCode": 400,
-                "body": json.dumps({"error": "Parâmetros 'category' e 'search' são obrigatórios"})
+                "body": json.dumps({"error": "Parâmetros 'category' e 'search' devem ser listas válidas em JSON"})
+            }
+
+        if not isinstance(category, list) or not isinstance(search, list) or len(category) != len(search):
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "Parâmetros 'category' e 'search' devem ser listas do mesmo tamanho"})
             }
 
         try:
-            results = self.service.search(category, search)
+            results = []
+            for c, s in zip(category, search):
+                result = self.service.search(c, s)
+                results.append(result)
             return {
                 "statusCode": 200,
                 "body": json.dumps(results)

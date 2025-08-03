@@ -22,7 +22,7 @@ Este projeto foi desenvolvido como um case técnico, simulando uma arquitetura m
 
 ## 🧱 Arquitetura
 
-- **API StarWars (SWAPI)** via GraphQL
+- **API StarWars (SWAPI)** 
 - **Função AWS Lambda** que orquestra o fluxo e consome a lógica da aplicação
 - **Módulo Python (`case_pod`)** responsável por buscar, processar e formatar os dados
 - **AWS S3** para persistência dos dados manipulados
@@ -35,8 +35,6 @@ Este projeto foi desenvolvido como um case técnico, simulando uma arquitetura m
 
 - Python 3.x
 - AWS Lambda
-- GraphQL (requests)
-- SWAPI (https://swapi-graphql.netlify.app/)
 - JSON
 - Pytest (para testes)
 - `requirements.txt` para gerenciamento de dependências

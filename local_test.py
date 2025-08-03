@@ -1,12 +1,13 @@
 from app.config.lambda_handler import lambda_handler
+import json
 
-def run_lambda_test(category, search_term):
+def run_lambda_test(categories, searches):
     event = {
-        "path": "/search", 
-        "httpMethod": "GET",  
+        "path": "/search",
+        "httpMethod": "GET",
         "queryStringParameters": {
-            "category": category,
-            "search": search_term
+            "category": json.dumps(categories),
+            "search": json.dumps(searches)
         }
     }
     context = {}
@@ -15,10 +16,5 @@ def run_lambda_test(category, search_term):
     print("Body:")
     print(response['body'])
 
-# Testar personagem
-print("🔎 Testando busca de personagem...")
-run_lambda_test("people", "Luke Skywalker",)
-
-# # Testar filme
-# print("\n🎬 Testando busca de filme...")
-# run_lambda_test("species", "Human")
+print("🔎 Testando múltiplos parâmetros...")
+run_lambda_test(["people", "films"], ["Luke Skywalker", "A New Hope"])

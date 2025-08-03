@@ -1,14 +1,11 @@
 import unittest
-from unittest.mock import patch
-from app.repositories.swapi_repository import SWAPIRepository 
 from unittest.mock import patch, Mock
-
+from app.repositories.swapi_repository import SWAPIRepository 
 
 class TestSWAPIRepository(unittest.TestCase):
 
     @patch("app.repositories.swapi_repository.requests.get")
     def test_get_data_people_with_enrichment(self, mock_get):
-        # Mapeando respostas por URL
         def mocked_requests_get(url, *args, **kwargs):
             mock_resp = Mock()
             if url == "https://swapi.info/api/people/":
@@ -53,28 +50,28 @@ class TestSWAPIRepository(unittest.TestCase):
                 film_data = {
                     "1": {
                         "title": "A New Hope",
-                        "opening_crawl": "It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....",
+                        "opening_crawl": "It is a period of civil war...",
                         "release_date": "1977-05-25",
                         "director": "George Lucas",
                         "producer": "Gary Kurtz, Rick McCallum"
                     },
                     "2": {
                         "title": "The Empire Strikes Back",
-                        "opening_crawl": "It is a dark time for the\r\nRebellion...",
+                        "opening_crawl": "It is a dark time for the Rebellion...",
                         "release_date": "1980-05-17",
                         "director": "Irvin Kershner",
                         "producer": "Gary Kurtz, Rick McCallum"
                     },
                     "3": {
                         "title": "Return of the Jedi",
-                        "opening_crawl": "Luke Skywalker has returned to\r\nhis home planet of Tatooine...",
+                        "opening_crawl": "Luke Skywalker has returned...",
                         "release_date": "1983-05-25",
                         "director": "Richard Marquand",
                         "producer": "Howard G. Kazanjian, George Lucas, Rick McCallum"
                     },
                     "6": {
                         "title": "Revenge of the Sith",
-                        "opening_crawl": "War! The Republic is crumbling\r\nunder attacks by the ruthless\r\nSith Lord...",
+                        "opening_crawl": "War! The Republic is crumbling...",
                         "release_date": "2005-05-19",
                         "director": "George Lucas",
                         "producer": "Rick McCallum"
@@ -99,9 +96,12 @@ class TestSWAPIRepository(unittest.TestCase):
         self.assertEqual(len(result[0]["films"]), 4)
         self.assertIn("title", result[0]["films"][0])
 
+        # Verificar que campos indesejados foram removidos
+        for unwanted in ["created", "edited", "url", "species", "vehicles", "starships"]:
+            self.assertNotIn(unwanted, result[0])
+
     @patch("app.repositories.swapi_repository.requests.get")
     def test_get_data_films_with_enrichment(self, mock_get):
-        # Função auxiliar para simular múltiplas URLs
         def mocked_requests_get(url, *args, **kwargs):
             mock_resp = Mock()
             if url == "https://swapi.info/api/films/":
@@ -110,7 +110,7 @@ class TestSWAPIRepository(unittest.TestCase):
                     {
                         "title": "A New Hope",
                         "episode_id": 4,
-                        "opening_crawl": "It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....",
+                        "opening_crawl": "It is a period of civil war...",
                         "director": "George Lucas",
                         "producer": "Gary Kurtz, Rick McCallum",
                         "release_date": "1977-05-25",
@@ -153,6 +153,9 @@ class TestSWAPIRepository(unittest.TestCase):
         self.assertIn("director", film)
         self.assertIn("characters", film)
 
+        # Verificar remoção de campos indesejados
+        for unwanted in ["planets","starships","vehicles","species","created","edited","url"]:
+            self.assertNotIn(unwanted, film)
 
     @patch("app.repositories.swapi_repository.requests.get")
     def test_get_data_planets_with_enrichment(self, mock_get):
@@ -176,22 +179,11 @@ class TestSWAPIRepository(unittest.TestCase):
                             "residents": [
                                 "https://swapi.info/api/people/1",
                                 "https://swapi.info/api/people/2",
-                                "https://swapi.info/api/people/4",
-                                "https://swapi.info/api/people/6",
-                                "https://swapi.info/api/people/7",
-                                "https://swapi.info/api/people/8",
-                                "https://swapi.info/api/people/9",
-                                "https://swapi.info/api/people/11",
-                                "https://swapi.info/api/people/43",
-                                "https://swapi.info/api/people/62",
-                                "https://swapi.info/api/people/66"
+                                "https://swapi.info/api/people/4"
                             ],
                             "films": [
                                 "https://swapi.info/api/films/1",
-                                "https://swapi.info/api/films/3",
-                                "https://swapi.info/api/films/4",
-                                "https://swapi.info/api/films/5",
-                                "https://swapi.info/api/films/6"
+                                "https://swapi.info/api/films/3"
                             ],
                             "created": "2014-12-09T13:50:49.641000Z",
                             "edited": "2014-12-20T20:58:18.411000Z",
@@ -205,15 +197,7 @@ class TestSWAPIRepository(unittest.TestCase):
                 people_names = {
                     "1": "Luke Skywalker",
                     "2": "C-3PO",
-                    "4": "Darth Vader",
-                    "6": "Owen Lars",
-                    "7": "Beru Whitesun lars",
-                    "8": "R5-D4",
-                    "9": "Biggs Darklighter",
-                    "11": "Anakin Skywalker",
-                    "43": "Shmi Skywalker",
-                    "62": "Cliegg Lars",
-                    "66": "Owen Lars"
+                    "4": "Darth Vader"
                 }
                 mock_resp.status_code = 200
                 mock_resp.json.return_value = {"name": people_names.get(id, f"Person {id}")}
@@ -222,10 +206,7 @@ class TestSWAPIRepository(unittest.TestCase):
                 id = url.split("/")[-1]
                 film_titles = {
                     "1": "A New Hope",
-                    "3": "Return of the Jedi",
-                    "4": "The Phantom Menace",
-                    "5": "Attack of the Clones",
-                    "6": "Revenge of the Sith"
+                    "3": "Return of the Jedi"
                 }
                 mock_resp.status_code = 200
                 mock_resp.json.return_value = {"title": film_titles.get(id, f"Film {id}")}
@@ -249,5 +230,8 @@ class TestSWAPIRepository(unittest.TestCase):
         self.assertIn("Luke Skywalker", planet["residents"])
         self.assertIn("A New Hope", planet["films"])
 
-if __name__ == '__main__':
+        # Verificar que a url foi removida
+        self.assertNotIn("url", planet)
+
+if __name__ == "__main__":
     unittest.main()
