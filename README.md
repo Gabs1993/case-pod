@@ -23,11 +23,9 @@ Este projeto foi desenvolvido como um case técnico, simulando uma arquitetura m
 ## 🧱 Arquitetura
 
 - **API StarWars (SWAPI)** 
-- **Função AWS Lambda** que orquestra o fluxo e consome a lógica da aplicação
-- **Módulo Python (`case_pod`)** responsável por buscar, processar e formatar os dados
-- **AWS S3** para persistência dos dados manipulados
-
-![Diagrama da arquitetura](./diagrama-arquitetura.png)
+- **Função AWS Lambda** 
+- **Módulo Python (`case_pod`)** 
+- **AWS S3** 
 
 ---
 
@@ -58,6 +56,11 @@ pip install -r requirements.txt
 
 Execute a simulação: 
 python tests/test_lambda.py / Utilizando o Run and Debug
+
+obs: no arquivo local_test já possui as informações para testar, ex: "people: Luke Skywalker" é só rodar com o comando acima ou utilizando o debug
+
+Para executar os testes, você pode ir até: C:\Users\pichau\Case_POD\tests e rodar com o comando: pytest test_swapi_repository.py
+ou executar: pytest que vai rodar todos os testes do projeto
 
 
 Gabriel Conceição dos Santos / Gabs1993
